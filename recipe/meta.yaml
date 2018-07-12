@@ -3,7 +3,7 @@
 {% set bundle = "tar.gz" %}
 {% set hash_type = "sha256" %}
 {% set hash = "71f35e5855c5284e18019f7b9db255b44c1da2341bc5dbe724e6d13f1bae4be7" %}
-{% set build = 0 %}
+{% set build = 1 %}
 
 package:
   name: {{ name|lower }}
@@ -16,14 +16,16 @@ source:
 
 
 build:
+  noarch: python
   entry_points:
     - jsontableschema = jsontableschema.cli:main
 
   number: {{ build }}
-  script: python setup.py install --single-version-externally-managed --record=record.txt
+  script: python -m pip install --no-deps --ignore-installed .
 
 requirements:
-  build:
+  host:
+    - pip
     - python
     - setuptools
 
